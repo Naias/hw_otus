@@ -1,6 +1,7 @@
 package hw02_unpack_string //nolint:golint,stylecheck
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -77,4 +78,9 @@ func TestUnpackWithEscape(t *testing.T) {
 		require.Equal(t, tst.err, err)
 		require.Equal(t, tst.expected, result)
 	}
+}
+
+func TestCats(t *testing.T) {
+	result, err := Unpack("aaa0b")
+	fmt.Printf("\nRes: %s, err: %v", result, err)
 }
