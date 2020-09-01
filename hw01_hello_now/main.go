@@ -16,5 +16,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error getting remote time: %v", err)
 	}
+
 	fmt.Printf("exact time: %v\n", remoteTime.Round(0))
 }
