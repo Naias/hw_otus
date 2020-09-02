@@ -2,6 +2,7 @@ package hw02_unpack_string //nolint:golint,stylecheck
 
 import (
 	"errors"
+	"log"
 	"strconv"
 	"strings"
 	"unicode"
@@ -9,7 +10,6 @@ import (
 
 var ErrInvalidString = errors.New("invalid string")
 
-//nolint:nes
 func Unpack(input string) (string, error) {
 	var result string
 	var prevChar rune
@@ -31,14 +31,15 @@ func Unpack(input string) (string, error) {
 
 			if string(i) == "0" {
 				result = strings.TrimSuffix(result, string(prevChar))
+				continue
 			}
 
-			numOfRepeats, _ := strconv.Atoi(string(i))
-			if numOfRepeats > 0 {
-				for j := 0; j < numOfRepeats-1; j++ {
-					result += string(prevChar)
-				}
+			numOfRepeats, err := strconv.Atoi(string(i))
+			if err != nil {
+				log.Fatalf("Error converting char %c to int: %v", i, err)
 			}
+
+			result += strings.Repeat(string(prevChar), numOfRepeats-1)
 		} else {
 			//fmt.Printf("\n%v:%c is string, prev: %c", key, i, prevChar)
 
