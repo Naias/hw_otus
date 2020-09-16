@@ -1,7 +1,6 @@
 package hw02_unpack_string //nolint:golint,stylecheck
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -14,7 +13,6 @@ type test struct {
 }
 
 func TestUnpack(t *testing.T) {
-	//t.Skip()
 	for _, tst := range [...]test{
 		{
 			input:    "a4bc2d5e",
@@ -58,7 +56,6 @@ func TestUnpack(t *testing.T) {
 Test checks if multibyte chars are handled properly: dataset contains russian, japanese and unicode pict symbols
  */
 func TestMultibyteChars(t *testing.T) {
-	//t.Skip()
 	for _, tst := range [...]test{
 		{
 			input:    "кот",
@@ -92,7 +89,6 @@ func TestMultibyteChars(t *testing.T) {
 Test checks if capital letters are handled properly
 */
 func TestCapitalChars(t *testing.T) {
-	//t.Skip()
 	for _, tst := range [...]test{
 		{
 			input:    "AA",
@@ -121,7 +117,6 @@ func TestCapitalChars(t *testing.T) {
 Test checks if whitespaces are handled properly
 */
 func TestEmpty(t *testing.T) {
-	//t.Skip()
 	for _, tst := range [...]test{
 		{
 			input:    " ",
@@ -171,9 +166,4 @@ func TestUnpackWithEscape(t *testing.T) {
 		require.Equal(t, tst.err, err)
 		require.Equal(t, tst.expected, result)
 	}
-}
-
-func TestCats(t *testing.T) {
-	result, err := Unpack("я2на")
-	fmt.Printf("\nRes: %s, err: %v", result, err)
 }

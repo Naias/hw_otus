@@ -22,7 +22,6 @@ func Unpack(s string) (string, error) {
 
 		//linter is bs-ing with "deeply nested (complexity: 5)" here
 		if unicode.IsDigit(i) { // nolint:nestif
-			//fmt.Printf("\n%v:%c is digit, prev: %c", key, i, prevChar)
 			if key == 0 {
 				return "", ErrInvalidString
 			}
@@ -48,8 +47,6 @@ func Unpack(s string) (string, error) {
 			addendum := strings.Repeat(string(prevChar), numOfRepeats-1)
 			b.WriteString(addendum)
 		} else {
-			//fmt.Printf("\n%v:%c is string, prev: %c", key, i, prevChar)
-
 			b.WriteRune(i)
 		}
 	}
