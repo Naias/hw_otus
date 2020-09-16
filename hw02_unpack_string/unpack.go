@@ -13,14 +13,14 @@ var ErrInvalidString = errors.New("invalid string")
 func Unpack(s string) (string, error) {
 	var b strings.Builder
 	var prevChar rune
-	//convert string to a slice of runes to properly handle multibyte chars
+	// convert string to a slice of runes to properly handle multibyte chars
 	input := []rune(s)
 	for key, i := range input {
 		if key > 0 {
 			prevChar = input[key-1]
 		}
 
-		//linter is bs-ing with "deeply nested (complexity: 5)" here
+		// linter is bs-ing with "deeply nested (complexity: 5)" here
 		if unicode.IsDigit(i) { // nolint:nestif
 			if key == 0 {
 				return "", ErrInvalidString
@@ -33,7 +33,7 @@ func Unpack(s string) (string, error) {
 			if string(i) == "0" {
 				r := b.String()
 				r = strings.TrimSuffix(r, string(prevChar))
-				//dirty hack to keep using string builder
+				// dirty hack to keep using string builder
 				b.Reset()
 				b.WriteString(r)
 				continue
