@@ -10,12 +10,14 @@ import (
 
 var ErrInvalidString = errors.New("invalid string")
 
-func Unpack(input string) (string, error) {
-	var result string
+func Unpack(s string) (string, error) {
+	var b strings.Builder
 	var prevChar rune
+	//convert string to a slice of runes to properly handle multibyte chars
+	input := []rune(s)
 	for key, i := range input {
 		if key > 0 {
-			prevChar = rune(input[key-1])
+			prevChar = input[key-1]
 		}
 
 		//linter is bs-ing with "deeply nested (complexity: 5)" here
@@ -30,7 +32,11 @@ func Unpack(input string) (string, error) {
 			}
 
 			if string(i) == "0" {
-				result = strings.TrimSuffix(result, string(prevChar))
+				r := b.String()
+				r = strings.TrimSuffix(r, string(prevChar))
+				//dirty hack to keep using string builder
+				b.Reset()
+				b.WriteString(r)
 				continue
 			}
 
@@ -39,13 +45,15 @@ func Unpack(input string) (string, error) {
 				log.Fatalf("Error converting char %c to int: %v", i, err)
 			}
 
-			result += strings.Repeat(string(prevChar), numOfRepeats-1)
+			addendum := strings.Repeat(string(prevChar), numOfRepeats-1)
+			b.WriteString(addendum)
 		} else {
 			//fmt.Printf("\n%v:%c is string, prev: %c", key, i, prevChar)
 
-			result += string(i)
+			b.WriteRune(i)
 		}
 	}
-	// Place your code here
+
+	result := b.String()
 	return result, nil
 }
